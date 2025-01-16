@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @brief Safe memory related functions (basically safe wrappers for `malloc`, `realloc` and `free`)
+ */
+
 GULC_FN_IMPL(void*, SafeAlloc, size_t size)
 {
     void* ptr = malloc(size);
@@ -32,7 +36,7 @@ GULC_FN_IMPL(void, Free, void* ptr)
 
 GULC_FN_IMPL(void, Swap, void* a, void* b, size_t size)
 {
-    if(a == NULL || b == NULL)
+    if(a == NULL || b == NULL || a == b || size == 0)
         return;
 
     uint8_t* aP = (uint8_t*)a;
