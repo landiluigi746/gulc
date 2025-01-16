@@ -14,6 +14,10 @@ endif()
 
 option(GULC_BUILD_TESTS "Build gulc tests" ${GULC_STANDALONE})
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_compile_definitions(GULC_DEBUG)
+endif()
+
 message(STATUS "CMake compiler id (version): ${CMAKE_C_COMPILER_ID} (${CMAKE_C_COMPILER_VERSION})")
 message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 message(STATUS "GULC_STANDALONE: ${GULC_STANDALONE}")

@@ -1,8 +1,8 @@
-file(GLOB_RECURSE SOURCES "gulc/*.c")
-file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/include/gulc/*.h")
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/gulc/*.c")
+file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/include/gulc/*.h")
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PUBLIC /W4)
