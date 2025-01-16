@@ -19,6 +19,14 @@
 #define GULC_FN_IMPL(ret, name, ...) ret GULC_PREFIX(name)(__VA_ARGS__)
 #endif // !GULC_FN_IMPL
 
+#ifdef __cplusplus
+#define GULC_EXTERN_C_BEGIN extern "C" {
+#define GULC_EXTERN_C_END }
+#else
+#define GULC_EXTERN_C_BEGIN
+#define GULC_EXTERN_C_END
+#endif // __cplusplus
+
 #include <stdint.h>
 #include <stddef.h>
 

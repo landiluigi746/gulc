@@ -14,5 +14,10 @@ int main(void)
 
     gulc_Free(data);
 
+    int* data2 = (int*) gulc_SafeAllocInit(sizeof(int), 0);
+    printf("value stored at data2 (%p): %d\n", data2, *data2);
+
+    gulc_Free(data2);
+
     return 0;
 }
