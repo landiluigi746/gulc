@@ -47,6 +47,8 @@ GULC_FN_DECLARE(void, Free, void* ptr)
  */
 GULC_FN_DECLARE(void, Swap, void* a, void* b, size_t size)
 
+#define GULC_SWAP(a, b) gulc_Swap(&a, &b, (sizeof(a) > sizeof(b) ? sizeof(b) : sizeof(a)))
+
 GULC_EXTERN_C_END
 
 #endif // !GULC_MEMORY_H__

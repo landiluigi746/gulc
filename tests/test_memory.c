@@ -23,8 +23,16 @@ int main(void)
     int a = 3;
     int b = 5;
 
-    gulc_Swap(&a, &b, sizeof(int));
+    GULC_SWAP(a, b);
     GULC_VERIFY(a == 5 && b == 3, "Swap failed!");
+
+    int* aP = &a;
+    int* bP = &b;
+
+    GULC_SWAP(aP, bP);
+    GULC_VERIFY(aP == &b && bP == &a, "Swap failed!");
+    GULC_SWAP(aP, bP);
+    GULC_VERIFY(aP == &a && bP == &b, "Swap failed!");
 
     return 0;
 }
