@@ -55,7 +55,7 @@ GULC_FN_DECLARE(void, Swap, void* a, void* b, size_t size)
  * @param a first variable
  * @param b second variable
  */
-#define GULC_SWAP(a, b) gulc_Swap(&a, &b, (sizeof(a) > sizeof(b) ? sizeof(b) : sizeof(a)))
+#define GULC_SWAP(a, b) GULC_PREFIX(Swap)(&a, &b, (sizeof(a) > sizeof(b) ? sizeof(b) : sizeof(a)))
 
 GULC_EXTERN_C_END
 
