@@ -40,6 +40,7 @@ GULC_FN_DECLARE(void, Free, void* ptr)
 
 /**
  * @brief Swaps the values of two memory regions
+ * This is just the underlying implementation of the `GULC_SWAP` macro
  * 
  * @param a pointer to the first memory region
  * @param b pointer to the second memory region
@@ -47,6 +48,13 @@ GULC_FN_DECLARE(void, Free, void* ptr)
  */
 GULC_FN_DECLARE(void, Swap, void* a, void* b, size_t size)
 
+/**
+ * @brief Swaps the values of two variables
+ * If the sizes don't match, the smaller one will be used
+ * 
+ * @param a first variable
+ * @param b second variable
+ */
 #define GULC_SWAP(a, b) gulc_Swap(&a, &b, (sizeof(a) > sizeof(b) ? sizeof(b) : sizeof(a)))
 
 GULC_EXTERN_C_END
