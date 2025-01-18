@@ -8,17 +8,19 @@ int main(void)
     int* data = (int*) gulc_SafeAlloc(sizeof(int));
 
     *data = 255;
-    printf("value stored at data (%p): %d\n", data, *data);
+    GULC_VERIFY(*data == 255, "What? This value should be 255!");
 
-    data = gulc_SafeRealloc(data, 1);
-    printf("value stored at data (%p): %d\n", data, *data);
+    data = gulc_SafeRealloc(data, sizeof(int) * 2);
+    GULC_VERIFY(*data == 255, "What? This value should be 255!");
 
-    gulc_Free(data);
+    gulc_Free(&data);
 
     int* data2 = (int*) gulc_SafeAllocInit(sizeof(int), 0);
-    printf("value stored at data2 (%p): %d\n", data2, *data2);
+    GULC_VERIFY(*data2 == 0, "What? This value should be 0!");
 
-    gulc_Free(data2);
+    gulc_Free(&data2);
+
+    GULC_VERIFY(data == NULL && data2 == NULL, "These pointers should be NULL!");
 
     int a = 3;
     int b = 5;

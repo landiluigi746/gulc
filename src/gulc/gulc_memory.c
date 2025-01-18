@@ -24,14 +24,34 @@ GULC_FN_IMPL(void*, SafeAllocInit, size_t size, uint8_t value)
 
 GULC_FN_IMPL(void*, SafeRealloc, void* ptr, size_t newSize)
 {
+    GULC_VERIFY(ptr != NULL, "Memory reallocation failed (passed pointer is NULL)!");
+
     void* newPtr = realloc(ptr, newSize);
-    GULC_VERIFY(newPtr != NULL, "Memory reallocation failed!");
+
+    if(newPtr == NULL)
+    {
+        /**
+         * this will not set the pointer in the calling function to NULL
+         * but later verify will fail so its safe to do this
+         */
+        gulc_Free(&ptr);
+        /**
+         * here we use newPtr != NULL instead of false for error logging purposes
+         */
+        GULC_VERIFY(newPtr != NULL, "Memory reallocation failed!");
+    }
+
     return newPtr;
 }
 
 GULC_FN_IMPL(void, Free, void* ptr)
 {
-    free(ptr);
+    if(ptr != NULL)
+    {
+        void** ptrP = (void**)ptr;
+        free(*ptrP);
+        *ptrP = NULL;
+    }
 }
 
 GULC_FN_IMPL(void, Swap, void* a, void* b, size_t size)

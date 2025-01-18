@@ -32,9 +32,9 @@ GULC_FN_DECLARE(void*, SafeAllocInit, size_t size, uint8_t value)
 GULC_FN_DECLARE(void*, SafeRealloc, void* ptr, size_t newSize)
 
 /**
- * @brief Frees memory and verifies that it was successful
+ * @brief Frees memory and sets the pointer to NULL
  * 
- * @param ptr pointer to the memory to free
+ * @param ptr pointer to the previously allocated memory to free (Expected to be a pointer to a pointer)
  */
 GULC_FN_DECLARE(void, Free, void* ptr)
 
