@@ -16,7 +16,7 @@ GULC_FN_DECLARE(void, Verify, int expr, const char* exprStr, const char* msg, ..
  * @param ... formatted message and (optional) arguments to print
  * @note It outputs the error message to stderr
  */
-#define GULC_VERIFY(expr, ...) GULC_PREFIX(Verify)(expr, #expr, __VA_ARGS__)
+#define GULC_VERIFY(expr, ...) GULC_NAME(Verify)(expr, #expr, __VA_ARGS__)
 
 GULC_EXTERN_C_END
 

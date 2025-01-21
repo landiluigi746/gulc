@@ -36,5 +36,15 @@ int main(void)
     GULC_SWAP(aP, bP);
     GULC_VERIFY(aP == &a && bP == &b, "Swap failed!");
 
+    GULC_MEM_ASSIGN(&a, &b, sizeof(int));
+    GULC_VERIFY(a == b, "Copy failed!");
+
+    char* str1 = "Hello world!";
+    char* str2 = "Test string 2";
+
+    GULC_SWAP(str1, str2);
+
+    GULC_VERIFY(*str1 == 'T' && *str2 == 'H', "Swap failed!");
+
     return 0;
 }

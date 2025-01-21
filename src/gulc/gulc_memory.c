@@ -17,15 +17,13 @@ GULC_FN_IMPL(void*, SafeAlloc, size_t size)
 
 GULC_FN_IMPL(void*, SafeAllocInit, size_t size, uint8_t value)
 {
-    void* ptr = gulc_SafeAlloc(size);
+    void* ptr = GULC_NAME(SafeAlloc)(size);
     memset(ptr, value, size);
     return ptr;
 }
 
 GULC_FN_IMPL(void*, SafeRealloc, void* ptr, size_t newSize)
 {
-    GULC_VERIFY(ptr != NULL, "Memory reallocation failed (passed pointer is NULL)!");
-
     void* newPtr = realloc(ptr, newSize);
 
     if(newPtr == NULL)
@@ -34,7 +32,7 @@ GULC_FN_IMPL(void*, SafeRealloc, void* ptr, size_t newSize)
          * this will not set the pointer in the calling function to NULL
          * but later verify will fail so its safe to do this
          */
-        gulc_Free(&ptr);
+        GULC_NAME(Free)(&ptr);
         /**
          * here we use newPtr != NULL instead of false for error logging purposes
          */
@@ -71,5 +69,21 @@ GULC_FN_IMPL(void, Swap, void* a, void* b, size_t size)
 
         ++aP, ++bP;
         --size;
+    }
+}
+
+GULC_FN_IMPL(void, CopyMemory, const void* src, size_t srcSize, void* dst, size_t dstSize)
+{
+    if(src == NULL || srcSize == 0 || dst == NULL || dstSize == 0 || src == dst)
+        return;
+    
+    uint8_t* srcP = (uint8_t*)src;
+    uint8_t* dstP = (uint8_t*)dst;
+    size_t copySize = (srcSize < dstSize) ? srcSize : dstSize;
+
+    while(copySize > 0)
+    {
+        *dstP++ = *srcP++;
+        --copySize;
     }
 }
