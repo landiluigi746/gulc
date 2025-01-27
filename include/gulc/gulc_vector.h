@@ -25,8 +25,8 @@ GULC_TYPE_DECLARE(
     Vector,
     struct
     {
-        size_t length;
-        size_t capacity;
+        const size_t length;
+        const size_t capacity;
         uint8_t data[];
     }
 )
@@ -62,7 +62,7 @@ GULC_FN_DECLARE(void, VectorDestroy, gulc_TypeVector** vectorP)
  * 
  * @note If the vector is null, an error is thrown
  */
-GULC_FN_DECLARE(void*, VectorEmplace, gulc_TypeVector** vectorP)
+GULC_FN_DECLARE(void*, VectorEmplaceBack, gulc_TypeVector** vectorP)
 
 /**
  * @brief Removes the last element from the vector
@@ -72,6 +72,10 @@ GULC_FN_DECLARE(void*, VectorEmplace, gulc_TypeVector** vectorP)
  * @note If the vector is null, an error is thrown
  */
 GULC_FN_DECLARE(void, VectorPopBack, gulc_TypeVector** vectorP)
+
+GULC_FN_DECLARE(void*, VectorEmplace, gulc_TypeVector** vectorP, size_t index)
+
+GULC_FN_DECLARE(void, VectorErase, gulc_TypeVector** vectorP, size_t index)
 
 /**
  * @brief Creates a new vector of given type

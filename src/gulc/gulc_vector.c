@@ -44,7 +44,7 @@ GULC_FN_IMPL(void, VectorDestroy, gulc_TypeVector** vectorP)
     
     if(vec->elementDestructor != NULL)
     {
-        for(size_t i = 0; i < vec->length; i++)
+        for(size_t i = 0; i < vec->length; ++i)
             vec->elementDestructor(VECTOR_IMPL_AT(vec, i));
     }
 
@@ -53,7 +53,7 @@ GULC_FN_IMPL(void, VectorDestroy, gulc_TypeVector** vectorP)
 }
 
 
-GULC_FN_IMPL(void*, VectorEmplace, gulc_TypeVector** vectorP)
+GULC_FN_IMPL(void*, VectorEmplaceBack, gulc_TypeVector** vectorP)
 {
     GULC_VERIFY(vectorP != NULL && *vectorP != NULL, "Can't push on a null vector");
     
@@ -79,5 +79,43 @@ GULC_FN_IMPL(void, VectorPopBack, gulc_TypeVector** vectorP)
         --(vec->length);
         if(vec->elementDestructor != NULL)
             vec->elementDestructor(VECTOR_IMPL_AT(vec, vec->length));
+    }
+}
+
+GULC_FN_IMPL(void*, VectorEmplace, gulc_TypeVector** vectorP, size_t index)
+{
+    GULC_VERIFY(vectorP != NULL && *vectorP != NULL, "Can't pop from a null vector");
+
+    gulc_VectorImpl* vec = TO_GULC_VECTOR_IMPL(*vectorP);
+
+    if(vec->length == vec->capacity)
+    {
+        VectorGrow(&vec);
+        *vectorP = TO_GULC_VECTOR(vec);
+    }
+
+    size_t i;
+
+    for(i = vec->length; i > 0; --i)
+        GULC_MEM_ASSIGN(VECTOR_IMPL_AT(vec, i), VECTOR_IMPL_AT(vec, (i - 1)), vec->elementSize);
+    
+    ++(vec->length);
+    return VECTOR_IMPL_AT(vec, i);
+}
+
+GULC_FN_IMPL(void, VectorErase, gulc_TypeVector** vectorP, size_t index)
+{
+    GULC_VERIFY(vectorP != NULL && *vectorP != NULL, "Can't pop from a null vector");
+
+    gulc_VectorImpl* vec = TO_GULC_VECTOR_IMPL(*vectorP);
+
+    GULC_VERIFY(index < vec->length, "Can't erase an element out of bounds of a vector");
+
+    if(vec->length > 0)
+    {
+        for(size_t i = index; i < vec->length; ++i)
+            GULC_MEM_ASSIGN(VECTOR_IMPL_AT(vec, i), VECTOR_IMPL_AT(vec, (i + 1)), vec->elementSize);
+        
+        --(vec->length);
     }
 }
