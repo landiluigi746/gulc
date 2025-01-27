@@ -57,6 +57,10 @@ int main(void)
     
     for(int i = 0; i < stringVector->length; i++)
         GULC_VERIFY(strcmp(GULC_VECTOR_AT(stringVector, char*, i), "Hello") == 0, "What? This value should be 'Hello'!");
+    
+    printf("Resizing string vector...\n");
+    gulc_VectorResize(&stringVector, numElements / 2);
+    GULC_VERIFY(stringVector->length == numElements / 2 && stringVector->capacity == numElements / 2, "What? This value should be %d!", numElements);
 
     // Float vector
     for(int i = 0; i < numElements; i++)
@@ -79,6 +83,22 @@ int main(void)
     for(int i = 0; i < floatVector->length; i++)
         GULC_VERIFY(GULC_VECTOR_AT(floatVector, float, i) == (float)i * 0.5f, "What? This value should be %f!", (float)i * 0.5f);
 
+    gulc_VectorResize(&floatVector, 20);
+
+    GULC_VERIFY(floatVector->length == numElements - 1 && floatVector->capacity == 20, "What? These values should be 5!");
+
+    for(int i = 0; i < floatVector->length; i++)
+        GULC_VERIFY(GULC_VECTOR_AT(floatVector, float, i) == (float)i * 0.5f, "What? This value should be %f!", (float)i * 0.5f);
+    
+    gulc_VectorShrinkToFit(&floatVector);
+
+    GULC_VERIFY(floatVector->length == numElements - 1 && floatVector->capacity == numElements - 1, "What? These values should be 5!");
+
+    gulc_VectorClear(&floatVector);
+
+    GULC_VERIFY(floatVector->length == 0 && floatVector->capacity == numElements - 1, "What? These values should be 5!");
+
+    printf("Destroying vectors...\n");
     gulc_VectorDestroy(&intVector);
     gulc_VectorDestroy(&stringVector);
     gulc_VectorDestroy(&floatVector);

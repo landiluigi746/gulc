@@ -97,6 +97,34 @@ GULC_FN_DECLARE(void*, VectorEmplace, gulc_TypeVector** vectorP, size_t index)
 GULC_FN_DECLARE(void, VectorErase, gulc_TypeVector** vectorP, size_t index)
 
 /**
+ * @brief Resizes the vector to the given size
+ * 
+ * @param vectorP pointer to the vector (pointer to pointer)
+ * @param newSize new size of the vector
+ * 
+ * @note If the vector is null, an error is thrown
+ */
+GULC_FN_DECLARE(void, VectorResize, gulc_TypeVector** vectorP, size_t newSize)
+
+/**
+ * @brief Clears the vector
+ * 
+ * @param vectorP pointer to the vector (pointer to pointer)
+ * 
+ * @note If the vector is null, an error is thrown
+ */
+GULC_FN_DECLARE(void, VectorClear, gulc_TypeVector** vectorP)
+
+/**
+ * @brief Shrinks the vector to fit its current size
+ * 
+ * @param vectorP pointer to the vector (pointer to pointer)
+ * 
+ * @note If the vector is null, an error is thrown
+ */
+GULC_FN_DECLARE(void, VectorShrinkToFit, gulc_TypeVector** vectorP)
+
+/**
  * @brief Creates a new vector of given type
  */
 #define GULC_VECTOR_OF(type) GULC_NAME(VectorCreate)(sizeof(type), 0, NULL)

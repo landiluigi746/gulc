@@ -42,11 +42,7 @@ GULC_FN_IMPL(void, VectorDestroy, gulc_TypeVector** vectorP)
     
     gulc_VectorImpl* vec = TO_GULC_VECTOR_IMPL(*vectorP);
     
-    if(vec->elementDestructor != NULL)
-    {
-        for(size_t i = 0; i < vec->length; ++i)
-            vec->elementDestructor(VECTOR_IMPL_AT(vec, i));
-    }
+    GULC_NAME(VectorClear)(vectorP);
 
     GULC_NAME(Free)(&vec);
     *vectorP = NULL;
@@ -118,4 +114,54 @@ GULC_FN_IMPL(void, VectorErase, gulc_TypeVector** vectorP, size_t index)
         
         --(vec->length);
     }
+}
+
+GULC_FN_IMPL(void, VectorResize, gulc_TypeVector** vectorP, size_t newSize)
+{
+    GULC_VERIFY(vectorP != NULL && *vectorP != NULL, "Can't resize a null vector");
+
+    gulc_VectorImpl* vec = TO_GULC_VECTOR_IMPL(*vectorP);
+
+    if(newSize < vec->length)
+    {
+        if(vec->elementDestructor != NULL)
+        {
+            for(size_t i = newSize; i < vec->length; ++i)
+                vec->elementDestructor(VECTOR_IMPL_AT(vec, i));
+        }
+
+        vec->length = newSize;
+    }
+
+    if(newSize != vec->capacity)
+    {
+        vec->capacity = newSize;
+        vec = GULC_NAME(SafeRealloc)(vec, sizeof(*vec) + newSize * vec->elementSize);
+        *vectorP = TO_GULC_VECTOR(vec);
+    }
+}
+
+GULC_FN_IMPL(void, VectorClear, gulc_TypeVector** vectorP)
+{
+    GULC_VERIFY(vectorP != NULL && *vectorP != NULL, "Can't pop from a null vector");
+
+    gulc_VectorImpl* vec = TO_GULC_VECTOR_IMPL(*vectorP);
+
+    if(vec->elementDestructor != NULL)
+    {
+        for(size_t i = 0; i < vec->length; ++i)
+            vec->elementDestructor(VECTOR_IMPL_AT(vec, i));
+    }
+
+    vec->length = 0;
+}
+
+GULC_FN_IMPL(void, VectorShrinkToFit, gulc_TypeVector** vectorP)
+{
+    GULC_VERIFY(vectorP != NULL && *vectorP != NULL, "Can't pop from a null vector");
+
+    gulc_VectorImpl* vec = TO_GULC_VECTOR_IMPL(*vectorP);
+
+    if(vec->length != vec->capacity)
+        GULC_NAME(VectorResize)(vectorP, vec->length);
 }
