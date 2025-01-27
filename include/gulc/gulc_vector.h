@@ -73,8 +73,27 @@ GULC_FN_DECLARE(void*, VectorEmplaceBack, gulc_TypeVector** vectorP)
  */
 GULC_FN_DECLARE(void, VectorPopBack, gulc_TypeVector** vectorP)
 
+/**
+ * @brief Emplaces a new element at the given index of the vector
+ * 
+ * @param vectorP pointer to the vector (pointer to pointer)
+ * @param index index to emplace the element at
+ * 
+ * @return pointer to the emplaced element
+ * 
+ * @note If the vector is null, an error is thrown
+ */
 GULC_FN_DECLARE(void*, VectorEmplace, gulc_TypeVector** vectorP, size_t index)
 
+/**
+ * @brief Removes the element at the given index of the vector
+ * 
+ * @param vectorP pointer to the vector (pointer to pointer)
+ * @param index index of the element to remove
+ * 
+ * @note If the vector is null, an error is thrown
+ * @note If the index is out of bounds, an error is thrown
+ */
 GULC_FN_DECLARE(void, VectorErase, gulc_TypeVector** vectorP, size_t index)
 
 /**
