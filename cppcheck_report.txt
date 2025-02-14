@@ -1,0 +1,5 @@
+src/gulc/gulc_memory.c:62:13: style: The scope of the variable 'temp' can be reduced. [variableScope]
+    uint8_t temp;
+            ^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingInclude]
+
